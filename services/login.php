@@ -26,11 +26,11 @@
 	*/
 	$username = strtolower($username);
 	$region = strtolower($region);
-	if(preg_match("/^\S+$/", $username) !== 1){
+	if(preg_match("/^[a-zA-Z][a-zA-Z0-9]*$/", $username) !== 1){
 		echo sprintf($xml, 'wrong username');
 		return;
 	}
-	if(preg_match("/^\S+$/", $password) !== 1){
+	if(preg_match("/^[a-zA-Z][a-zA-Z0-9]*$/", $password) !== 1){
 		echo sprintf($xml, 'wrong password');
 		return;
 	}
