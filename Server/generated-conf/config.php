@@ -5,8 +5,8 @@ $serviceContainer->setAdapterClass('cn_topspace', 'mysql');
 $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle();
 $manager->setConfiguration(array (
   'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
-  'dsn' => 'mysql:host=mysql.leowrd.com;dbname=project_sample',
-  'user' => 'adminsample',
+  'dsn' => 'mysql:host=mysql.leowrd.com;dbname=topspacecn',
+  'user' => 'admincn',
   'password' => 'adminadmin',
   'attributes' =>
   array (

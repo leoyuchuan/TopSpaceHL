@@ -7,8 +7,8 @@ return [
                 'cn_topspace' => [
                     'adapter'    => 'mysql',
                     'classname'  => 'Propel\Runtime\Connection\DebugPDO',
-                    'dsn'        => 'mysql:host=mysql.leowrd.com;dbname=project_sample',
-                    'user'       => 'adminsample',
+                    'dsn'        => 'mysql:host=mysql.leowrd.com;dbname=topspacecn',
+                    'user'       => 'admincn',
                     'password'   => 'adminadmin',
                     'attributes' => []
                 ],

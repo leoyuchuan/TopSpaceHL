@@ -5,6 +5,10 @@
     <column name="comment_id" phpName="CommentId" type="INTEGER" size="32" primaryKey="true" required="true"/>
     <column name="content" phpName="Content" type="VARCHAR" size="255" required="true"/>
     <column name="date" phpName="Date" type="TIMESTAMP"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="64" required="true"/>
+    <index name="comment_fk_1">
+      <index-column name="username"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="MyISAM"/>
     </vendor>

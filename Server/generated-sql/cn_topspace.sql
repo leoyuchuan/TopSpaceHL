@@ -15,7 +15,9 @@ CREATE TABLE `COMMENT`
     `comment_id` INTEGER(32) NOT NULL,
     `content` VARCHAR(255) NOT NULL,
     `date` DATETIME,
-    PRIMARY KEY (`news_id`,`comment_id`)
+    `username` VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`news_id`,`comment_id`),
+    INDEX `comment_fk_1` (`username`)
 ) ENGINE=MyISAM;
 
 -- ---------------------------------------------------------------------

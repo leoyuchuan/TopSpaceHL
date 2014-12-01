@@ -86,6 +86,12 @@ abstract class Comment implements ActiveRecordInterface
     protected $date;
 
     /**
+     * The value for the username field.
+     * @var        string
+     */
+    protected $username;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -361,6 +367,16 @@ abstract class Comment implements ActiveRecordInterface
     }
 
     /**
+     * Get the [username] column value.
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
      * Set the value of [news_id] column.
      *
      * @param  int $v new value
@@ -441,6 +457,26 @@ abstract class Comment implements ActiveRecordInterface
     } // setDate()
 
     /**
+     * Set the value of [username] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Comment The current object (for fluent API support)
+     */
+    public function setUsername($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->username !== $v) {
+            $this->username = $v;
+            $this->modifiedColumns[CommentTableMap::COL_USERNAME] = true;
+        }
+
+        return $this;
+    } // setUsername()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -490,6 +526,9 @@ abstract class Comment implements ActiveRecordInterface
                 $col = null;
             }
             $this->date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : CommentTableMap::translateFieldName('Username', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->username = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -498,7 +537,7 @@ abstract class Comment implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = CommentTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = CommentTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Comment'), 0, $e);
@@ -703,6 +742,9 @@ abstract class Comment implements ActiveRecordInterface
         if ($this->isColumnModified(CommentTableMap::COL_DATE)) {
             $modifiedColumns[':p' . $index++]  = 'date';
         }
+        if ($this->isColumnModified(CommentTableMap::COL_USERNAME)) {
+            $modifiedColumns[':p' . $index++]  = 'username';
+        }
 
         $sql = sprintf(
             'INSERT INTO COMMENT (%s) VALUES (%s)',
@@ -725,6 +767,9 @@ abstract class Comment implements ActiveRecordInterface
                         break;
                     case 'date':
                         $stmt->bindValue($identifier, $this->date ? $this->date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'username':
+                        $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -793,6 +838,9 @@ abstract class Comment implements ActiveRecordInterface
             case 3:
                 return $this->getDate();
                 break;
+            case 4:
+                return $this->getUsername();
+                break;
             default:
                 return null;
                 break;
@@ -826,6 +874,7 @@ abstract class Comment implements ActiveRecordInterface
             $keys[1] => $this->getCommentId(),
             $keys[2] => $this->getContent(),
             $keys[3] => $this->getDate(),
+            $keys[4] => $this->getUsername(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -877,6 +926,9 @@ abstract class Comment implements ActiveRecordInterface
             case 3:
                 $this->setDate($value);
                 break;
+            case 4:
+                $this->setUsername($value);
+                break;
         } // switch()
 
         return $this;
@@ -914,6 +966,9 @@ abstract class Comment implements ActiveRecordInterface
         }
         if (array_key_exists($keys[3], $arr)) {
             $this->setDate($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setUsername($arr[$keys[4]]);
         }
     }
 
@@ -967,6 +1022,9 @@ abstract class Comment implements ActiveRecordInterface
         }
         if ($this->isColumnModified(CommentTableMap::COL_DATE)) {
             $criteria->add(CommentTableMap::COL_DATE, $this->date);
+        }
+        if ($this->isColumnModified(CommentTableMap::COL_USERNAME)) {
+            $criteria->add(CommentTableMap::COL_USERNAME, $this->username);
         }
 
         return $criteria;
@@ -1066,6 +1124,7 @@ abstract class Comment implements ActiveRecordInterface
         $copyObj->setCommentId($this->getCommentId());
         $copyObj->setContent($this->getContent());
         $copyObj->setDate($this->getDate());
+        $copyObj->setUsername($this->getUsername());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1104,6 +1163,7 @@ abstract class Comment implements ActiveRecordInterface
         $this->comment_id = null;
         $this->content = null;
         $this->date = null;
+        $this->username = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

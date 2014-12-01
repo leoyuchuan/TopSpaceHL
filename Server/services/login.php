@@ -11,7 +11,9 @@
 		<message>$validation</message>
 	</result>
 */	
-
+        require_once '../vendor/autoload.php';
+        require_once '../generated-conf/config.php';
+        
 	$xml = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
 	// $username = $_POST['username'];
 	// $password = $_POST['password'];
@@ -19,7 +21,6 @@
 	$username = $_GET['username'];
 	$password = $_GET['password'];
 	$region = $_GET['region'];
-
 	/*
 		Convert username & region to lower case
 		Validate username & password & region are correctly formatted
@@ -39,29 +40,29 @@
 		return;
 	}
 
-	/*
-		Connect to Database
-	*/
-	$dbconn = include "dbconn.php";
-	if($dbconn === null){
-		echo sprintf($xml, 'cannot connect to db');
-		return;
-	}
-
-	/*
-		SQL Statement & execution Reuslts
-	*/
-	$sql = 'SELECT username FROM USERS WHERE username = "%s" AND password = "%s";';
-	$reuslt = $dbconn->query(sprintf($sql,$username,$password));
-	$rows = $reuslt->$num_rows;
-
-	if($rows === 1){
-		echo sprintf($xml, 'verified');
-		return;
-	}
-	else{
-		echo sprintf($xml, 'Not found');
-		return;
-	}
+        if(strtolower(trim($region)) === "us"){
+            $conn = Propel\Runtime\Propel::getConnection('us_topspace');
+            $user = UserQuery::create()->findByArray(array('Username'=>$username, 'Password'=>$password), $conn);
+            if($user->count() > 0){
+                echo sprintf($xml,'verified');
+                return;
+            }
+            else{
+                echo sprintf($xml,"user not found");
+                return;
+            }
+        }
+        if(strtolower(trim($region)) === "cn"){
+            $conn = Propel\Runtime\Propel::getConnection('cn_topspace');
+            $user = UserQuery::create()->findByArray(array('Username'=>$username, 'Password'=>$password), $conn);
+            if($user->count() > 0){
+                echo sprintf($xml,'verified');
+                return;
+            }
+            else{
+                echo sprintf($xml,"user not found");
+                return;
+            }
+        }
 
 ?>

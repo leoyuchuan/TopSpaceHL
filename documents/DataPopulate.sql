@@ -36,8 +36,8 @@ INSERT INTO `GAME`(`game_id`,`team1_id`,`team2_id`,`team1_score`,`team2_score`,`
 /*
 	Table : COMMENT
  */
-INSERT INTO `COMMENT`(`news_id`,`comment_id`,`content`,`date`)VALUES (1,1,'LOL','2014-11-25 14:25:00');
-INSERT INTO `COMMENT`(`news_id`,`comment_id`,`content`,`date`)VALUES (1,2,'Oops','2014-11-25 14:30:00');
+INSERT INTO `COMMENT`(`news_id`,`comment_id`,`content`,`date`,`username`)VALUES (1,1,'LOL','2014-11-25 14:25:00','leoyuchuan');
+INSERT INTO `COMMENT`(`news_id`,`comment_id`,`content`,`date`,`username`)VALUES (1,2,'Oops','2014-11-25 14:30:00','helionitial');
 
 /*
 	Table : SUBSCRIBE

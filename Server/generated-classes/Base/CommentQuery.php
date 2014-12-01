@@ -23,11 +23,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCommentQuery orderByCommentId($order = Criteria::ASC) Order by the comment_id column
  * @method     ChildCommentQuery orderByContent($order = Criteria::ASC) Order by the content column
  * @method     ChildCommentQuery orderByDate($order = Criteria::ASC) Order by the date column
+ * @method     ChildCommentQuery orderByUsername($order = Criteria::ASC) Order by the username column
  *
  * @method     ChildCommentQuery groupByNewsId() Group by the news_id column
  * @method     ChildCommentQuery groupByCommentId() Group by the comment_id column
  * @method     ChildCommentQuery groupByContent() Group by the content column
  * @method     ChildCommentQuery groupByDate() Group by the date column
+ * @method     ChildCommentQuery groupByUsername() Group by the username column
  *
  * @method     ChildCommentQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildCommentQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -40,12 +42,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildComment findOneByCommentId(int $comment_id) Return the first ChildComment filtered by the comment_id column
  * @method     ChildComment findOneByContent(string $content) Return the first ChildComment filtered by the content column
  * @method     ChildComment findOneByDate(string $date) Return the first ChildComment filtered by the date column
+ * @method     ChildComment findOneByUsername(string $username) Return the first ChildComment filtered by the username column
  *
  * @method     ChildComment[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildComment objects based on current ModelCriteria
  * @method     ChildComment[]|ObjectCollection findByNewsId(int $news_id) Return ChildComment objects filtered by the news_id column
  * @method     ChildComment[]|ObjectCollection findByCommentId(int $comment_id) Return ChildComment objects filtered by the comment_id column
  * @method     ChildComment[]|ObjectCollection findByContent(string $content) Return ChildComment objects filtered by the content column
  * @method     ChildComment[]|ObjectCollection findByDate(string $date) Return ChildComment objects filtered by the date column
+ * @method     ChildComment[]|ObjectCollection findByUsername(string $username) Return ChildComment objects filtered by the username column
  * @method     ChildComment[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -137,7 +141,7 @@ abstract class CommentQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT news_id, comment_id, content, date FROM COMMENT WHERE news_id = :p0 AND comment_id = :p1';
+        $sql = 'SELECT news_id, comment_id, content, date, username FROM COMMENT WHERE news_id = :p0 AND comment_id = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -391,6 +395,35 @@ abstract class CommentQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CommentTableMap::COL_DATE, $date, $comparison);
+    }
+
+    /**
+     * Filter the query on the username column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUsername('fooValue');   // WHERE username = 'fooValue'
+     * $query->filterByUsername('%fooValue%'); // WHERE username LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $username The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildCommentQuery The current query, for fluid interface
+     */
+    public function filterByUsername($username = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($username)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $username)) {
+                $username = str_replace('*', '%', $username);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(CommentTableMap::COL_USERNAME, $username, $comparison);
     }
 
     /**

@@ -59,7 +59,7 @@ class CommentTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class CommentTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the news_id field
@@ -92,6 +92,11 @@ class CommentTableMap extends TableMap
     const COL_DATE = 'COMMENT.date';
 
     /**
+     * the column name for the username field
+     */
+    const COL_USERNAME = 'COMMENT.username';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -103,11 +108,11 @@ class CommentTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('NewsId', 'CommentId', 'Content', 'Date', ),
-        self::TYPE_CAMELNAME     => array('newsId', 'commentId', 'content', 'date', ),
-        self::TYPE_COLNAME       => array(CommentTableMap::COL_NEWS_ID, CommentTableMap::COL_COMMENT_ID, CommentTableMap::COL_CONTENT, CommentTableMap::COL_DATE, ),
-        self::TYPE_FIELDNAME     => array('news_id', 'comment_id', 'content', 'date', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('NewsId', 'CommentId', 'Content', 'Date', 'Username', ),
+        self::TYPE_CAMELNAME     => array('newsId', 'commentId', 'content', 'date', 'username', ),
+        self::TYPE_COLNAME       => array(CommentTableMap::COL_NEWS_ID, CommentTableMap::COL_COMMENT_ID, CommentTableMap::COL_CONTENT, CommentTableMap::COL_DATE, CommentTableMap::COL_USERNAME, ),
+        self::TYPE_FIELDNAME     => array('news_id', 'comment_id', 'content', 'date', 'username', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class CommentTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('NewsId' => 0, 'CommentId' => 1, 'Content' => 2, 'Date' => 3, ),
-        self::TYPE_CAMELNAME     => array('newsId' => 0, 'commentId' => 1, 'content' => 2, 'date' => 3, ),
-        self::TYPE_COLNAME       => array(CommentTableMap::COL_NEWS_ID => 0, CommentTableMap::COL_COMMENT_ID => 1, CommentTableMap::COL_CONTENT => 2, CommentTableMap::COL_DATE => 3, ),
-        self::TYPE_FIELDNAME     => array('news_id' => 0, 'comment_id' => 1, 'content' => 2, 'date' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('NewsId' => 0, 'CommentId' => 1, 'Content' => 2, 'Date' => 3, 'Username' => 4, ),
+        self::TYPE_CAMELNAME     => array('newsId' => 0, 'commentId' => 1, 'content' => 2, 'date' => 3, 'username' => 4, ),
+        self::TYPE_COLNAME       => array(CommentTableMap::COL_NEWS_ID => 0, CommentTableMap::COL_COMMENT_ID => 1, CommentTableMap::COL_CONTENT => 2, CommentTableMap::COL_DATE => 3, CommentTableMap::COL_USERNAME => 4, ),
+        self::TYPE_FIELDNAME     => array('news_id' => 0, 'comment_id' => 1, 'content' => 2, 'date' => 3, 'username' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -145,6 +150,7 @@ class CommentTableMap extends TableMap
         $this->addPrimaryKey('comment_id', 'CommentId', 'INTEGER', true, 32, null);
         $this->addColumn('content', 'Content', 'VARCHAR', true, 255, null);
         $this->addColumn('date', 'Date', 'TIMESTAMP', false, null, null);
+        $this->addColumn('username', 'Username', 'VARCHAR', true, 64, null);
     } // initialize()
 
     /**
@@ -361,11 +367,13 @@ class CommentTableMap extends TableMap
             $criteria->addSelectColumn(CommentTableMap::COL_COMMENT_ID);
             $criteria->addSelectColumn(CommentTableMap::COL_CONTENT);
             $criteria->addSelectColumn(CommentTableMap::COL_DATE);
+            $criteria->addSelectColumn(CommentTableMap::COL_USERNAME);
         } else {
             $criteria->addSelectColumn($alias . '.news_id');
             $criteria->addSelectColumn($alias . '.comment_id');
             $criteria->addSelectColumn($alias . '.content');
             $criteria->addSelectColumn($alias . '.date');
+            $criteria->addSelectColumn($alias . '.username');
         }
     }
 

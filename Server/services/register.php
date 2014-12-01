@@ -11,7 +11,8 @@
 		<message>$message</message>
 	</result>
 */	
-
+        require_once '../vendor/autoload.php';
+        require_once '../generated-conf/config.php';
 	$xml = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
 	// $username = $_POST['username'];
 	// $password = $_POST['password'];
@@ -39,28 +40,43 @@
 		return;
 	}
 
-	/*
-		Connect to Database
-	*/
-	$dbconn = include "dbconn.php";
-	if($dbconn === null){
-		echo sprintf($xml, 'cannot connect to db');
-		return;
-	}
-
-	/*
-		SQL Statement & execution Reuslts
-	*/
-	$sql = 'INSERT INTO USERS(username, password) VALUES ("%s", "%s");';
-	$reuslt = $dbconn->query(sprintf($sql,$username,$password));
-
-	if($result === true){
-		echo sprintf($xml, 'success');
-		return;
-	}
-	else{
-		echo sprintf($xml, 'failed');
-		return;
-	}
+        if(strtolower(trim($region)) === "us"){
+            $conn = Propel\Runtime\Propel::getConnection('us_topspace');
+            $user = UserQuery::create()->findByArray(array('Username'=>$username), $conn);
+            if($user->count() > 0){
+                echo sprintf($xml,'username exists');
+                return;
+            }
+            $user = new User();
+            $user->setUsername($username);
+            $user->setPassword($password);
+            try{
+                $user->save($conn);
+                echo sprintf($xml,'success');
+                return;
+            }  catch (Exception $e){
+                echo sprintf($xml,$e->getMessage());
+                return;
+            }
+        }
+        if(strtolower(trim($region)) === "cn"){
+            $conn = Propel\Runtime\Propel::getConnection('cn_topspace');
+            $user = UserQuery::create()->findByArray(array('Username'=>$username), $conn);
+            if($user->count() > 0){
+                echo sprintf($xml,'username exists');
+                return;
+            }
+            $user = new User();
+            $user->setUsername($username);
+            $user->setPassword($password);
+            try{
+                $user->save($conn);
+                echo sprintf($xml,'success');
+                return;
+            }  catch (Exception $e){
+                echo sprintf($xml,$e->getMessage());
+                return;
+            }
+        }
 
 ?>

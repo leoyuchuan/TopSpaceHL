@@ -63,8 +63,10 @@ CREATE TABLE `COMMENT`(
 	`comment_id` INTEGER(32) NOT NULL CHECK(`comment_id`>0),
 	`content` VARCHAR(255) NOT NULL,
 	`date` DATETIME,
+	`username` VARCHAR(64) NOT NULL,
 	CONSTRAINT `comment_pk` PRIMARY KEY (`news_id`,`comment_id`),
-	CONSTRAINT `comment_fk` FOREIGN KEY (`news_id`) REFERENCES `NEWS`(`news_id`)
+	CONSTRAINT `comment_fk` FOREIGN KEY (`news_id`) REFERENCES `NEWS`(`news_id`),
+	CONSTRAINT `comment_fk_1` FOREIGN KEY (`username`) REFERENCES `USER`(`username`)
 );
 
 CREATE TABLE `SUBSCRIBE`(
