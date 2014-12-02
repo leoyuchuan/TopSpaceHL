@@ -22,10 +22,8 @@
 	$region = $_GET['region'];
 
 	/*
-		Convert username & region to lower case
-		Validate username & password & region are correctly formatted
+		Process Input Data
 	*/
-	$username = strtolower($username);
 	$region = strtolower($region);
 	if(preg_match("/^[a-zA-Z][a-zA-Z0-9]*$/", $username) !== 1){
 		echo sprintf($xml, 'wrong username');
@@ -39,7 +37,9 @@
 		echo sprintf($xml, 'wrong region');
 		return;
 	}
-
+        /*
+         * Registration Processing
+         */
         if(strtolower(trim($region)) === "us"){
             $conn = Propel\Runtime\Propel::getConnection('us_topspace');
             $user = UserQuery::create()->findByArray(array('Username'=>$username), $conn);

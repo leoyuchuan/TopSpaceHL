@@ -55,14 +55,17 @@
 */	
 	require_once '../vendor/autoload.php';
         require_once '../generated-conf/config.php';
-
 	$xmlmessage = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
         $xml = '<?xml version="1.0" encoding="UTF-8"?><result>%s</result>';
 	$xmlall = '<news><news_id>%d</news_id><title>%s</title><content>%s</content><date>%s</date></news>';
 	$xmltitle = '<news><news_id>%d</news_id><title>%s</title><date>%s</date></news>';
 	$xmlid = '<news><news_id>%d</news_id></news>';
         $output = '';
-	// $operation = $_POST['o'];
+	
+        /*
+         * Fetch Input Data
+         */
+        // $operation = $_POST['o'];
 	// $region = $_POST['region'];
         // $news_id = $_POST['news_id'];
 	$operation = $_GET['o'];
@@ -70,8 +73,7 @@
         $news_id = $_GET['news_id'];
 
 	/*
-		Convert username & region to lower case
-		Validate username & password & region are correctly formatted
+	    Input Data Processing
 	*/
 	$operation = strtolower($operation);
 	$region = strtolower($region);
@@ -87,7 +89,11 @@
 		echo sprintf($xmlmessage, 'wrong parameter');
 		return;
 	}
-
+        
+        
+        /*
+         * Fetching New From Database Based on Operation Request
+         */
 	if(strtolower(trim($region)) === "cn"){
             $conn = Propel\Runtime\Propel::getConnection('cn_topspace');
             if($operation==="all"){
