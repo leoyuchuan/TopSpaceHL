@@ -1,4 +1,4 @@
-<<html>
+<html>
 <head>
 	<title>Welcome To WebServer</title>
 </head>
