@@ -1,5 +1,10 @@
 <?php
-require_once './phpscript/checklogin.php';
+session_start();
+    $status = $_SESSION['status'];
+    if($status !== 'online'){
+        echo '<script>window.location = "login.php"</script>';
+        return;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,21 +77,27 @@ require_once './phpscript/checklogin.php';
             <div class="row">
                 <div class="col-lg-12">
                     <h1><?php
-                        require_once 'HTTP/Request2.php';
                         session_start();
                         $region = $_SESSION['region'];
-                        //    $username = $_GET['username'];
-                        //    $password = $_GET['password'];
-                        //    $region = $_GET['region'];
-                        
-                        $r = new Http_Request2('http://www.webserver'.rand(1,2).'.com/news.php');
-                        $r->setMethod(HTTP_Request2::METHOD_POST);
-                        $r->addPostParameter(array('o' => 'title', 'region' => $region));
-                        try {
-                            $body = $r->send()->getBody();
+                        $memcached = new Memcached();
+                        $memcached->addServer('localhost', 11211);
+                        $key = "allnewstitle".$region;
+                        $body = $memcached->get($key);
+                        if ($body) {
                             $xml = simplexml_load_string($body);
-                        } catch (Exception $ex) {
-                            echo $ex->getMessage();
+                        }
+                        else{
+                            require_once 'HTTP/Request2.php';
+                            $r = new Http_Request2('http://www.webserver'.rand(1,2).'.com/news.php');
+                            $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->addPostParameter(array('o' => 'title', 'region' => $region));
+                            try {
+                                $body = $r->send()->getBody();
+                                $memcached->set($key, $body, 10);
+                                $xml = simplexml_load_string($body);
+                            } catch (Exception $ex) {
+                                echo $ex->getMessage();
+                            }
                         }
                         foreach($xml->news as $new){
                             $id = $new->news_id;

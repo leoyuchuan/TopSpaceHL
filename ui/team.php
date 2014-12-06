@@ -1,5 +1,10 @@
 <?php
-require_once './phpscript/checklogin.php';
+session_start();
+$status = $_SESSION['status'];
+if ($status !== 'online') {
+    echo '<script>window.location = "login.php"</script>';
+    return;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,17 +79,27 @@ require_once './phpscript/checklogin.php';
                     <h1><?php
                         $tid = $_GET['tid'];
                         require_once 'HTTP/Request2.php';
-                        if ($tid === null || $tid==="") {
+                        if ($tid === null || $tid === "") {
                             session_start();
                             $region = $_SESSION['region'];
-                            $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
-                            $r->setMethod(HTTP_Request2::METHOD_POST);
-                            $r->addPostParameter(array('o' => 'all', 'region' => $region));
-                            try {
-                                $body = $r->send()->getBody();
+
+                            $memcached = new Memcached();
+                            $memcached->addServer('localhost', 11211);
+                            $key = "teamall" . $region;
+                            $body = $memcached->get($key);
+                            if ($body) {
                                 $xml = simplexml_load_string($body);
-                            } catch (Exception $ex) {
-                                echo $ex->getMessage();
+                            } else {
+                                $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
+                                $r->setMethod(HTTP_Request2::METHOD_POST);
+                                $r->addPostParameter(array('o' => 'all', 'region' => $region));
+                                try {
+                                    $body = $r->send()->getBody();
+                                    $memcached->set($key, $body, 10);
+                                    $xml = simplexml_load_string($body);
+                                } catch (Exception $ex) {
+                                    echo $ex->getMessage();
+                                }
                             }
                             foreach ($xml->team as $team) {
                                 $tid = $team->team_id;
@@ -97,14 +112,24 @@ require_once './phpscript/checklogin.php';
                         } else {
                             session_start();
                             $region = $_SESSION['region'];
-                            $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
-                            $r->setMethod(HTTP_Request2::METHOD_POST);
-                            $r->addPostParameter(array('o' => 'byid', 'team_id' => $tid, 'region' => $region));
-                            try {
-                                $body = $r->send()->getBody();
+
+                            $memcached = new Memcached();
+                            $memcached->addServer('localhost', 11211);
+                            $key = "teamid" . $tid . $region;
+                            $body = $memcached->get($key);
+                            if ($body) {
                                 $xml = simplexml_load_string($body);
-                            } catch (Exception $ex) {
-                                echo $ex->getMessage();
+                            } else {
+                                $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
+                                $r->setMethod(HTTP_Request2::METHOD_POST);
+                                $r->addPostParameter(array('o' => 'byid', 'team_id' => $tid, 'region' => $region));
+                                try {
+                                    $body = $r->send()->getBody();
+                                    $memcached->set($key, $body, 10);
+                                    $xml = simplexml_load_string($body);
+                                } catch (Exception $ex) {
+                                    echo $ex->getMessage();
+                                }
                             }
                             foreach ($xml->team as $team) {
                                 $name = $team->name;
@@ -112,14 +137,24 @@ require_once './phpscript/checklogin.php';
                                 echo "<a href='./phpscript/unsubyid.php?tid=$tid'>unsubscribe</a>";
                                 echo "<br/>";
                             }
+
                             $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
                             $r->setMethod(HTTP_Request2::METHOD_POST);
                             $r->addPostParameter(array('o' => 'member', 'team_id' => $tid, 'region' => $region));
-                            try {
-                                $body = $r->send()->getBody();
+                            $memcached = new Memcached();
+                            $memcached->addServer('localhost', 11211);
+                            $key = "memberteamid" . $tid . $region;
+                            $body = $memcached->get($key);
+                            if ($body) {
                                 $xml = simplexml_load_string($body);
-                            } catch (Exception $ex) {
-                                echo $ex->getMessage();
+                            } else {
+                                try {
+                                    $body = $r->send()->getBody();
+                                    $memcached->set($key, $body, 10);
+                                    $xml = simplexml_load_string($body);
+                                } catch (Exception $ex) {
+                                    echo $ex->getMessage();
+                                }
                             }
                             foreach ($xml->member as $member) {
                                 $fn = $member->first_name;

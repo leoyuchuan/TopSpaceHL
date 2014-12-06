@@ -1,5 +1,10 @@
 <?php
-require_once './phpscript/checklogin.php';
+session_start();
+    $status = $_SESSION['status'];
+    if($status !== 'online'){
+        echo '<script>window.location = "login.php"</script>';
+        return;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,21 +81,36 @@ require_once './phpscript/checklogin.php';
                         session_start();
                         $region = $_SESSION['region'];
                         $news_id = $_GET['nid'];
-                        if (preg_match("/^[1-9][0-9]*$/", $news_id) != 1)
+                        if (preg_match("/^[1-9][0-9]*$/", $news_id) != 1) {
                             echo "<script>window.location='home.php'</script>";
-                        $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/news.php');
-                        $r->setMethod(HTTP_Request2::METHOD_POST);
-                        $r->addPostParameter(array('o' => 'byid', 'news_id' => $news_id, 'region' => $region));
-                        try {
-                            $body = $r->send()->getBody();
+                            return;
+                        }
+
+
+                        $memcached = new Memcached();
+                        $memcached->addServer('localhost', 11211);
+                        $key = "newsid".$news_id.$region;
+                        $body = $memcached->get($key);
+                        if ($body) {
                             if (preg_match("/^.*<message>.*$/", $body) > 0)
                                 echo "<script>window.location='home.php'</script>";
                             $xml = simplexml_load_string($body);
-                        } catch (Exception $ex) {
-                            echo $ex->getMessage();
+                        } else {
+                            $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/news.php');
+                            $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->addPostParameter(array('o' => 'byid', 'news_id' => $news_id, 'region' => $region));
+                            try {
+                                $body = $r->send()->getBody();
+                                if (preg_match("/^.*<message>.*$/", $body) > 0)
+                                    echo "<script>window.location='home.php'</script>";
+                                $memcached->set($key, $body, 10);
+                                $xml = simplexml_load_string($body);
+                            } catch (Exception $ex) {
+                                echo $ex->getMessage();
+                            }
                         }
                         $new = $xml->news[0];
-                        $id = (string)$new->news_id[0];
+                        $id = (string) $new->news_id[0];
                         $date = $new->date[0];
                         $title = $new->title[0];
                         $content = $new->content[0];
@@ -99,16 +119,26 @@ require_once './phpscript/checklogin.php';
                         echo "<br/><br/>";
                         echo "<a href='./phpscript/subprocess.php?nid=$id'>subscribe</a>    ";
                         echo "<br/><br/>";
-                        $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/viewcomment.php');
-                        $r->setMethod(HTTP_Request2::METHOD_POST);
-                        $r->addPostParameter(array('news_id' => $id, 'region' => $region));
-                        try {
-                            $body = $r->send()->getBody();
+
+                        $memcached = new Memcached();
+                        $memcached->addServer('localhost', 11211);
+                        $key = "commentnewsid".$id.$region;
+                        $body = $memcached->get($key);
+                        if ($body) {
                             $xml = simplexml_load_string($body);
-                        } catch (Exception $ex) {
-                            echo $ex->getMessage();
+                        } else {
+                            $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/viewcomment.php');
+                            $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->addPostParameter(array('news_id' => $id, 'region' => $region));
+                            try {
+                                $body = $r->send()->getBody();
+                                $memcached->set($key, $body, 10);
+                                $xml = simplexml_load_string($body);
+                            } catch (Exception $ex) {
+                                echo $ex->getMessage();
+                            }
                         }
-                        foreach($xml->comment as $comment){
+                        foreach ($xml->comment as $comment) {
                             $uname = $comment->username;
                             $content = $comment->content;
                             echo "$uname: $content<br/>";
