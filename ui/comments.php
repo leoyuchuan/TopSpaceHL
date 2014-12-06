@@ -1,3 +1,6 @@
+<?php 
+    require_once './phpscript/checklogin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,22 +42,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">News</a>
+                        <a href="home.php">News</a>
                     </li>
                     <li>
-                        <a href="#">Scoreboard</a>
+                        <a href="scoreboard.php">Scoreboard</a>
                     </li>
                     <li>
-                        <a href="#">Subscribe Control</a>
+                        <a href="subscribe.php">Subscribe Control</a>
                     </li>
                     <li>
-                        <a href="#">Team</a>
+                        <a href="team.php">Team</a>
                     </li>
                     <li>
-                        <a href="#">Comments</a>
+                        <a href="comments.php">Comments</a>
                     </li>
                     <li>
-                        <a href="#">Logout</a>
+                        <a href="./phpscript/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>

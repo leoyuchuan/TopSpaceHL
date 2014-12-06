@@ -22,6 +22,7 @@ Output: XML File
     .
 </result>
 */	
+header('Access-Control-Allow-Origin:*');
 require_once '../vendor/autoload.php';
 require_once '../generated-conf/config.php';
 $xmlmessage = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
@@ -33,14 +34,14 @@ $output = '';
  * Fetch Input Data
  */
 
-//$team_id = $_POST['team_id'];
-//$operation = $_POST['o'];
-//$region = $_POST['region'];
-//$game_id = $_POST['game_id'];
-$team_id = $_GET['team_id'];
-$operation = $_GET['o'];
-$region = $_GET['region'];
-$game_id = $_GET['game_id'];
+$team_id = $_POST['team_id'];
+$operation = $_POST['o'];
+$region = $_POST['region'];
+$game_id = $_POST['game_id'];
+//$team_id = $_GET['team_id'];
+//$operation = $_GET['o'];
+//$region = $_GET['region'];
+//$game_id = $_GET['game_id'];
 
 /*
     Input Data Processing & Get Connection Base on Region

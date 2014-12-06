@@ -36,6 +36,7 @@ For gets:
         .
     </result>
 */	
+header('Access-Control-Allow-Origin:*');
 require_once '../vendor/autoload.php';
 require_once '../generated-conf/config.php';
 $xmlmessage = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
@@ -47,18 +48,18 @@ $output = '';
 /*
  * Fetch Input Data
  */
-// $operation = $_POST['o'];
-// $region = $_POST['region'];
-// $username = $_POST['username'];
-// $password = $_POST['password'];
-// $team_id = $_POST['team_id'];
-// $news_id = $_POST['news_id'];
-$team_id = $_GET['team_id'];
-$news_id = $_GET['news_id'];
-$operation = $_GET['o'];
-$region = $_GET['region'];
-$username = $_GET['username'];
-$password = $_GET['password'];
+$operation = $_POST['o'];
+$region = $_POST['region'];
+$username = $_POST['username'];
+$password = $_POST['password'];
+$team_id = $_POST['team_id'];
+$news_id = $_POST['news_id'];
+//$team_id = $_GET['team_id'];
+//$news_id = $_GET['news_id'];
+//$operation = $_GET['o'];
+//$region = $_GET['region'];
+//$username = $_GET['username'];
+//$password = $_GET['password'];
 
 /*
  * Process Input Data & Get Connection Base on Region

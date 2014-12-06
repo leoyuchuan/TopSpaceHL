@@ -11,15 +11,16 @@ As following format
         <message>$message</message>
 </result>
 */	
+header('Access-Control-Allow-Origin:*');
 require_once '../vendor/autoload.php';
 require_once '../generated-conf/config.php';
 $xml = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
-// $username = $_POST['username'];
-// $password = $_POST['password'];
-// $region = $_POST['region'];
-$username = $_GET['username'];
-$password = $_GET['password'];
-$region = $_GET['region'];
+$username = $_POST['username'];
+$password = $_POST['password'];
+$region = $_POST['region'];
+//$username = $_GET['username'];
+//$password = $_GET['password'];
+//$region = $_GET['region'];
 
 /*
  * Process Input Data & Get Connection Base on Region

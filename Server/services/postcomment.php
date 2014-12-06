@@ -9,20 +9,21 @@ Output: XML File
 <result>
         <message>$validation</message>
 </result>
-*/	
+*/
+header('Access-Control-Allow-Origin:*');
 require_once '../vendor/autoload.php';
 require_once '../generated-conf/config.php';
 $xml = '<?xml version="1.0" encoding="UTF-8"?><result><message>%s</message></result>';
-// $region = $_POST['region'];
-// $news_id = $_POST['news_id'];
-//$content = $_POST['content'];
-//$username = $_POST['username'];
-//$password = $_POST['password'];
-$region = $_GET['region'];
-$news_id = $_GET['news_id'];
-$content = $_GET['content'];
-$username = $_GET['username'];
-$password = $_GET['password'];
+$region = $_POST['region'];
+$news_id = $_POST['news_id'];
+$content = $_POST['content'];
+$username = $_POST['username'];
+$password = $_POST['password'];
+//$region = $_GET['region'];
+//$news_id = $_GET['news_id'];
+//$content = $_GET['content'];
+//$username = $_GET['username'];
+//$password = $_GET['password'];
 
 /*
  * Process Parameter and Validation & Get Connection Base on Region

@@ -1,3 +1,6 @@
+<?php 
+    require_once './phpscript/checklogin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,22 +42,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">News</a>
+                        <a href="home.php">News</a>
                     </li>
                     <li>
-                        <a href="#">Scoreboard</a>
+                        <a href="scoreboard.php">Scoreboard</a>
                     </li>
                     <li>
-                        <a href="#">Subscribe Control</a>
+                        <a href="subscribe.php">Subscribe Control</a>
                     </li>
                     <li>
-                        <a href="#">Team</a>
+                        <a href="team.php">Team</a>
                     </li>
                     <li>
-                        <a href="#">Comments</a>
+                        <a href="comments.php">Comments</a>
                     </li>
                     <li>
-                        <a href="#">Logout</a>
+                        <a href="./phpscript/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -68,7 +71,34 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1>Stuff here</h1>
+                <h1><?php
+                        require_once 'HTTP/Request2.php';
+                        session_start();
+                        $region = $_SESSION['region'];
+                        $username = $_SESSION['username'];
+                        $password = $_SESSION['password'];
+                        
+                        $r = new Http_Request2('http://www.webserver'.rand(1,2).'.com/subscribe.php');
+                        $r->setMethod(HTTP_Request2::METHOD_POST);
+                        $r->addPostParameter(array('o' => 'gets','username'=>$username,'password'=>$password, 'region' => $region));
+                        try {
+                            $body = $r->send()->getBody();
+                            $xml = simplexml_load_string($body);
+                        } catch (Exception $ex) {
+                            echo $ex->getMessage();
+                        }
+                        if($xml->news->count()===0){
+                            echo "No Subscription!";
+                        }
+                        foreach($xml->news as $new){
+                            $id = $new->news_id;
+                            $date = $new->date;
+                            $title = $new->title;
+//                            echo "<div><span>$id</span><span>$title</span><span>$date</span></div>";
+                            echo "<a href='news.php?nid=$id'>id:$id | title:$title | date:$date </a>";
+                            echo "<br/>";
+                        }
+                        ?></h1>
             </div>
         </div>
         <!-- /.row -->
