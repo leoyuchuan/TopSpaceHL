@@ -59,9 +59,6 @@ session_start();
                             <a href="team.php">Team</a>
                         </li>
                         <li>
-                            <a href="comments.php">Comments</a>
-                        </li>
-                        <li>
                             <a href="./phpscript/logout.php">Logout</a>
                         </li>
                     </ul>
@@ -156,7 +153,25 @@ session_start();
                                   <td>$content</td></tr>";
                         }
                         echo "</tbody><br/></table>";
+
+
+                        // Post comments
+                        echo '<form role="form" action="">
+                               <div class="form-group">
+                                  <label for="name">Comments</label>
+                                  <input type="text" class="form-control" id="name" 
+                                     placeholder="Enter Comments">
+                               </div>
+                               <div class="checkbox">
+                                  <label>
+                                  <input type="checkbox"> Stay anonymous.
+                                  </label>
+                               </div>
+                               <button type="submit" class="btn btn-default">Submit</button>
+                            </form> ';
                         ?>
+
+
                 </div>
             </div>
             <!-- /.row -->

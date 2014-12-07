@@ -59,9 +59,6 @@ session_start();
                             <a href="team.php">Team</a>
                         </li>
                         <li>
-                            <a href="comments.php">Comments</a>
-                        </li>
-                        <li>
                             <a href="./phpscript/logout.php">Logout</a>
                         </li>
                     </ul>
