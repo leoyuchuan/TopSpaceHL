@@ -44,6 +44,11 @@ if ($status === 'online') {
                             var username = inputs[0].value;
                             var password = inputs[1].value;
                             var region = inputs[2].value;
+                            var token = "";
+<?php
+$token = $_GET['token'];
+echo "token = '$token';";
+?>
                             if (username.trim() === "") {
 //                                alert('username fail');
                                 return;
@@ -71,7 +76,13 @@ if ($status === 'online') {
                                 return;
                             };
                             xmlhttp.open("POST", "./phpscript/register.php", true);
-                            var params = "username=" + username.trim() + "&password=" + password.trim() + "&region=" + region.trim();
+                            var params = "";
+                            if (token.trim() === "") {
+                                params = "username=" + username.trim() + "&password=" + password.trim() + "&region=" + region.trim();
+                            } else {
+                                params = "username=" + username.trim() + "&password=" + password.trim() + "&region=" + region.trim() + "&token=" + token;
+                            }
+
                             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 //                            xmlhttp.setRequestHeader("Accept-Encoding","gzip,deflat");
                             xmlhttp.send(params);
