@@ -110,6 +110,12 @@ session_start();
 //                            echo "<div><span>$id</span><span>$title</span><span>$date</span></div>";
                             echo "<a href='news.php?nid=$id'>id:$id | title:$title | date:$date </a>";
                             echo "<br/>";
+
+                            echo "<table class='table'><caption>Subscribe List</caption> 
+                                  <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead>
+                                  ";
+                            echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr></tbody><br/>";
+                            echo "</table>";
                         }
                         ?></h1>
                 </div>

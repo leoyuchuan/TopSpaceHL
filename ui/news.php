@@ -115,10 +115,17 @@ session_start();
                         $title = $new->title[0];
                         $content = $new->content[0];
 //                        echo "<div><span>$id</span><span>$title</span><span>$date</span></div>";
-                        echo "id:$id | title:$title | date:$date<br/>$content</br>";
-                        echo "<br/><br/>";
-                        echo "<a href='./phpscript/subprocess.php?nid=$id'>subscribe</a>    ";
-                        echo "<br/><br/>";
+                        // echo "id:$id | title:$title | date:$date<br/>$content</br>";
+                        // echo "<br/><br/>";
+                        // echo "<a href='./phpscript/subprocess.php?nid=$id'>subscribe</a>    ";
+                        // echo "<br/><br/>";
+
+                        echo "<table class='table'><caption>Recent News List</caption> 
+                              <thead><tr><th>ID</th><th>Title</th><th>Date</th><th>Subscribe</th></tr><thead>
+                             ";
+                        echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td><td><a href='./phpscript/subprocess.php?nid=$id'>subscribe</a> </td></tr></tbody><br/>";
+                        echo "</table>";
+                        echo "<br/>$content</br>";
 
                         $memcached = new Memcached();
                         $memcached->addServer('localhost', 11211);

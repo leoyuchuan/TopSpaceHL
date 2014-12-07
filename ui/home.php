@@ -76,7 +76,7 @@ session_start();
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><?php
+                    <?php
                         session_start();
                         $region = $_SESSION['region'];
                         $memcached = new Memcached();
@@ -103,10 +103,15 @@ session_start();
                             $id = $new->news_id;
                             $date = $new->date;
                             $title = $new->title;
-//                            echo "<div><span>$id</span><span>$title</span><span>$date</span></div>";
-                            echo "<a href='news.php?nid=$id'>id:$id | title:$title | date:$date </a><br/>";
+                            echo "<table class='table'><caption>Recent News List</caption> 
+                                  <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead>
+                                  ";
+                            echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr></tbody><br/>";
+                            echo "</table>";
+
+
                         }
-                        ?></h1>
+                        ?>
                 </div>
             </div>
             <!-- /.row -->

@@ -104,10 +104,19 @@ if ($status !== 'online') {
                             foreach ($xml->team as $team) {
                                 $tid = $team->team_id;
                                 $name = $team->name;
-                                echo "<a href='team.php?tid=$tid'>$name</a>";
-                                echo "  <a href='./phpscript/subprocess.php?tid=$tid'>subscribe</a>  ";
-                                echo "<a href='./phpscript/unsubyid.php?tid=$tid'>unsubscribe</a>";
-                                echo "<br/>";
+                                // echo "<a href='team.php?tid=$tid'>$name</a>";
+                                // echo "  <a href='./phpscript/subprocess.php?tid=$tid'>subscribe</a>  ";
+                                // echo "<a href='./phpscript/unsubyid.php?tid=$tid'>unsubscribe</a>";
+                                // echo "<br/>";
+
+
+                                echo "<table class='table'><caption>Subscribe Options</caption> 
+                                  <thead><tr><th>Team</th><th>Sub</th><th>Unsub</th></tr><thead>
+                                  ";
+                                echo "<tbody><tr><td><a href='team.php?tid=$tid'>$name</a></td>
+                                  <td><a href='./phpscript/subprocess.php?tid=$tid'>Sub</a></td>
+                                  <td><a href='./phpscript/unsubyid.php?tid=$tid'>Unsub</a></td></tr></tbody><br/>";
+                                echo "</table>";
                             }
                         } else {
                             session_start();
