@@ -8,7 +8,6 @@ session_destroy();
             function statusChangeCallback(response) {
                     if (response.status === 'connected') {
                         FB.logout();
-                        window.location="../login.php";
                     } else if (response.status === 'not_authorized') {
                         // The person is logged into Facebook, but not your app.
                         ;
@@ -39,6 +38,7 @@ session_destroy();
 
                     FB.getLoginStatus(function (response) {
                         statusChangeCallback(response);
+                        window.location="../login.php";
                     });
 
                 };
