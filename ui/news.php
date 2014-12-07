@@ -120,7 +120,8 @@ session_start();
                         echo "<table class='table'><caption>Recent News List</caption> 
                               <thead><tr><th>ID</th><th>Title</th><th>Date</th><th>Subscribe</th></tr><thead>
                              ";
-                        echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td><td><a href='./phpscript/subprocess.php?nid=$id'>subscribe</a> </td></tr></tbody><br/>";
+                        echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td>
+                              <td><a href='./phpscript/subprocess.php?nid=$id'>subscribe</a></td></tr></tbody><br/>";
                         echo "</table>";
                         echo "<br/>$content</br>";
 
@@ -154,9 +155,9 @@ session_start();
                         }
                         echo "</tbody><br/></table>";
 
-
-                        // Post comments
-                        echo '<form role="form" action="">
+                        ?>
+                        <!--Post comments -->
+                        <form role="form" action="" name="comments">
                                <div class="form-group">
                                   <label for="name">Comments</label>
                                   <input type="text" class="form-control" id="name" 
@@ -168,9 +169,7 @@ session_start();
                                   </label>
                                </div>
                                <button type="submit" class="btn btn-default">Submit</button>
-                            </form> ';
-                        ?>
-
+                        </form> ;
 
                 </div>
             </div>

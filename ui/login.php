@@ -11,7 +11,7 @@
 
                 <div id="facebook"><i class="fa fa-facebook">
                         <wb:login-button type="3,2" onlogin="loginwb" onlogout="logoutwb">Login</wb:login-button>
-                    </i><div id="connect"> with SNS</div></div>
+                    </i><div id="connect"><a href="http://helmos.com.cn/wplprj/login.php">with SNS</a></div></div>
                 <div id="mainlogin">
                     <div id="or">or</div>
                     <h1>Log in with awesome new thing</h1>
