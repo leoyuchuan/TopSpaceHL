@@ -12,6 +12,7 @@ CREATE TABLE `USER`(
 	`gender` VARCHAR(6),
 	`address` VARCHAR(255),
 	`phone` VARCHAR(32),
+	`token` VARCHAR(512),
 	CONSTRAINT `user_pk` PRIMARY KEY (`username`)
 );
 

@@ -149,6 +149,7 @@ CREATE TABLE `USER`
     `gender` VARCHAR(6),
     `address` VARCHAR(255),
     `phone` VARCHAR(32),
+    `token` VARCHAR(512),
     PRIMARY KEY (`username`)
 ) ENGINE=MyISAM;
 

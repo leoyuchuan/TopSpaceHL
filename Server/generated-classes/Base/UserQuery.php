@@ -27,6 +27,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery orderByGender($order = Criteria::ASC) Order by the gender column
  * @method     ChildUserQuery orderByAddress($order = Criteria::ASC) Order by the address column
  * @method     ChildUserQuery orderByPhone($order = Criteria::ASC) Order by the phone column
+ * @method     ChildUserQuery orderByToken($order = Criteria::ASC) Order by the token column
  *
  * @method     ChildUserQuery groupByUsername() Group by the username column
  * @method     ChildUserQuery groupByPassword() Group by the password column
@@ -36,6 +37,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery groupByGender() Group by the gender column
  * @method     ChildUserQuery groupByAddress() Group by the address column
  * @method     ChildUserQuery groupByPhone() Group by the phone column
+ * @method     ChildUserQuery groupByToken() Group by the token column
  *
  * @method     ChildUserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildUserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -52,6 +54,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser findOneByGender(string $gender) Return the first ChildUser filtered by the gender column
  * @method     ChildUser findOneByAddress(string $address) Return the first ChildUser filtered by the address column
  * @method     ChildUser findOneByPhone(string $phone) Return the first ChildUser filtered by the phone column
+ * @method     ChildUser findOneByToken(string $token) Return the first ChildUser filtered by the token column
  *
  * @method     ChildUser[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildUser objects based on current ModelCriteria
  * @method     ChildUser[]|ObjectCollection findByUsername(string $username) Return ChildUser objects filtered by the username column
@@ -62,6 +65,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser[]|ObjectCollection findByGender(string $gender) Return ChildUser objects filtered by the gender column
  * @method     ChildUser[]|ObjectCollection findByAddress(string $address) Return ChildUser objects filtered by the address column
  * @method     ChildUser[]|ObjectCollection findByPhone(string $phone) Return ChildUser objects filtered by the phone column
+ * @method     ChildUser[]|ObjectCollection findByToken(string $token) Return ChildUser objects filtered by the token column
  * @method     ChildUser[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -153,7 +157,7 @@ abstract class UserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT username, password, email, first_name, last_name, gender, address, phone FROM USER WHERE username = :p0';
+        $sql = 'SELECT username, password, email, first_name, last_name, gender, address, phone, token FROM USER WHERE username = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
@@ -473,6 +477,35 @@ abstract class UserQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(UserTableMap::COL_PHONE, $phone, $comparison);
+    }
+
+    /**
+     * Filter the query on the token column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByToken('fooValue');   // WHERE token = 'fooValue'
+     * $query->filterByToken('%fooValue%'); // WHERE token LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $token The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUserQuery The current query, for fluid interface
+     */
+    public function filterByToken($token = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($token)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $token)) {
+                $token = str_replace('*', '%', $token);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(UserTableMap::COL_TOKEN, $token, $comparison);
     }
 
     /**

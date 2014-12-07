@@ -105,6 +105,7 @@
     <column name="gender" phpName="Gender" type="VARCHAR" size="6"/>
     <column name="address" phpName="Address" type="VARCHAR" size="255"/>
     <column name="phone" phpName="Phone" type="VARCHAR" size="32"/>
+    <column name="token" phpName="Token" type="VARCHAR" size="512"/>
     <vendor type="mysql">
       <parameter name="Engine" value="MyISAM"/>
     </vendor>

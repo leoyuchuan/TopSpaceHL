@@ -108,6 +108,12 @@ abstract class User implements ActiveRecordInterface
     protected $phone;
 
     /**
+     * The value for the token field.
+     * @var        string
+     */
+    protected $token;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -413,6 +419,16 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
+     * Get the [token] column value.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
      * Set the value of [username] column.
      *
      * @param  string $v new value
@@ -573,6 +589,26 @@ abstract class User implements ActiveRecordInterface
     } // setPhone()
 
     /**
+     * Set the value of [token] column.
+     *
+     * @param  string $v new value
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function setToken($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->token !== $v) {
+            $this->token = $v;
+            $this->modifiedColumns[UserTableMap::COL_TOKEN] = true;
+        }
+
+        return $this;
+    } // setToken()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -631,6 +667,9 @@ abstract class User implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UserTableMap::translateFieldName('Phone', TableMap::TYPE_PHPNAME, $indexType)];
             $this->phone = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UserTableMap::translateFieldName('Token', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->token = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -639,7 +678,7 @@ abstract class User implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = UserTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = UserTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\User'), 0, $e);
@@ -856,6 +895,9 @@ abstract class User implements ActiveRecordInterface
         if ($this->isColumnModified(UserTableMap::COL_PHONE)) {
             $modifiedColumns[':p' . $index++]  = 'phone';
         }
+        if ($this->isColumnModified(UserTableMap::COL_TOKEN)) {
+            $modifiedColumns[':p' . $index++]  = 'token';
+        }
 
         $sql = sprintf(
             'INSERT INTO USER (%s) VALUES (%s)',
@@ -890,6 +932,9 @@ abstract class User implements ActiveRecordInterface
                         break;
                     case 'phone':
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
+                        break;
+                    case 'token':
+                        $stmt->bindValue($identifier, $this->token, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -970,6 +1015,9 @@ abstract class User implements ActiveRecordInterface
             case 7:
                 return $this->getPhone();
                 break;
+            case 8:
+                return $this->getToken();
+                break;
             default:
                 return null;
                 break;
@@ -1007,6 +1055,7 @@ abstract class User implements ActiveRecordInterface
             $keys[5] => $this->getGender(),
             $keys[6] => $this->getAddress(),
             $keys[7] => $this->getPhone(),
+            $keys[8] => $this->getToken(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1070,6 +1119,9 @@ abstract class User implements ActiveRecordInterface
             case 7:
                 $this->setPhone($value);
                 break;
+            case 8:
+                $this->setToken($value);
+                break;
         } // switch()
 
         return $this;
@@ -1119,6 +1171,9 @@ abstract class User implements ActiveRecordInterface
         }
         if (array_key_exists($keys[7], $arr)) {
             $this->setPhone($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setToken($arr[$keys[8]]);
         }
     }
 
@@ -1184,6 +1239,9 @@ abstract class User implements ActiveRecordInterface
         }
         if ($this->isColumnModified(UserTableMap::COL_PHONE)) {
             $criteria->add(UserTableMap::COL_PHONE, $this->phone);
+        }
+        if ($this->isColumnModified(UserTableMap::COL_TOKEN)) {
+            $criteria->add(UserTableMap::COL_TOKEN, $this->token);
         }
 
         return $criteria;
@@ -1279,6 +1337,7 @@ abstract class User implements ActiveRecordInterface
         $copyObj->setGender($this->getGender());
         $copyObj->setAddress($this->getAddress());
         $copyObj->setPhone($this->getPhone());
+        $copyObj->setToken($this->getToken());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1321,6 +1380,7 @@ abstract class User implements ActiveRecordInterface
         $this->gender = null;
         $this->address = null;
         $this->phone = null;
+        $this->token = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
