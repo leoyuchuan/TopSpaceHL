@@ -3,24 +3,34 @@
         <head>
             <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=2337125943" type="text/javascript" charset="utf-8"></script>
             <meta charset="UTF-8">
+            <meta property="wb:webmaster" content="e0b944bd6d4935df" />
             <title>TopSpaceHL!</title>
             <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
         </head>
         <body>
             <div id="loginform">
+
                 <div id="mainlogin">
-                    <h1>Log in with awesome new thing</h1>
+                    <h1>Sign Up</h1>
                     <form action="javascript:void(0);" method="POST">
                         <input type="text" placeholder="username" value="" required name="username">
                         <input type="password" placeholder="password" value="" required name="password">
-                        <input type="text" name="region" value="us">
+                        <input type="text" name="region" value="preferred region">
                         <button type="submit" onclick="login()"><i class="fa fa-arrow-right"></i></button>
                     </form>
                     <div id="note">
-                    <h1>Don't have an account? Super Fast <a href="register.php">Sign Up</a> Here!</h1>
+                    <h1>Sign up using Social Networking Service <a href="http://helmos.com.cn/wplproj/login.php">Login</a></h1>
                     </div>
 
                     <script>
+                        function loginwb(o) {
+                            alert("Welcome, " + o.screen_name);
+                            window.location = "http://helmos.com.cn/wplproj/weibo.php";
+                            // redirect here...
+                        }
+                        function logoutwb() {
+                            alert('logout');
+                        }
                         function login() {
                             var inputs = document.getElementsByTagName('input');
                             var username = inputs[0].value;
