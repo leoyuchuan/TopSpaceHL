@@ -121,7 +121,7 @@ session_start();
                                   <thead><tr><th>Game ID</th><th>Team 1</th><th>Team 2</th><th>Date</th><th>Location></th></tr><thead>
                                   ";
                             echo "<tbody><tr><td>$id</td><td><a href='team.php?nid=$t1id'>$t1name</a></td>
-                                  <td><a href='team.php?nid=$t2id'>$t2name</a></td><td>$date $time</td><td>$location</td></tr></tbody><br/>";
+                                  <td><a href='team.php?tid=$t2id'>$t2name</a></td><td>$date $time</td><td>$location</td></tr></tbody><br/>";
                             echo "</table>";
                         }
 
