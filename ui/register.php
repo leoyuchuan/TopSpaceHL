@@ -19,7 +19,14 @@
                         <button type="submit" onclick="login()"><i class="fa fa-arrow-right"></i></button>
                     </form>
                     <div id="note">
-                    <h1>Sign up using Social Networking Service <a href="http://helmos.com.cn/wplproj/login.php">Login</a></h1>
+                    <h1>Sign up using Social Networking Service <a href="http://helmos.com.cn/wplproj/login.php">Here</a></h1>
+                    
+                    <div class="panel panel-default">
+    <div class="panel-body">
+        Share your progress on Facebook!
+        <a href="{{ path('facebook_authorize_start') }}">Connect with Facebook</a>
+    </div>
+</div>
                     </div>
 
                     <script>
