@@ -87,6 +87,7 @@ session_start();
                             require_once 'HTTP/Request2.php';
                             $r = new Http_Request2('http://www.webserver'.rand(1,2).'.com/news.php');
                             $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->setHeader("Accept-Encoding:gzip,deflat");
                             $r->addPostParameter(array('o' => 'title', 'region' => $region));
                             try {
                                 $body = $r->send()->getBody();

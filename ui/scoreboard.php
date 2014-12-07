@@ -86,6 +86,7 @@ session_start();
                         } else {
                             $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/scoreboard.php');
                             $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->setHeader("Accept-Encoding:gzip,deflat");
                             $r->addPostParameter(array('o' => 'all', 'region' => $region));
                             try {
                                 $body = $r->send()->getBody();
@@ -135,6 +136,7 @@ session_start();
                             } else {
                                 $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
                                 $r->setMethod(HTTP_Request2::METHOD_POST);
+                                $r->setHeader("Accept-Encoding:gzip,deflat");
                                 $r->addPostParameter(array('o' => 'byid', 'team_id' => $teamid, 'region' => $region));
                                 try {
                                     $body = $r->send()->getBody();

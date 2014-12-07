@@ -95,6 +95,7 @@ if ($status !== 'online') {
                     } else {
                         $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/news.php');
                         $r->setMethod(HTTP_Request2::METHOD_POST);
+                        $r->setHeader("Accept-Encoding:gzip,deflat");
                         $r->addPostParameter(array('o' => 'byid', 'news_id' => $news_id, 'region' => $region));
                         try {
                             $body = $r->send()->getBody();
@@ -134,6 +135,7 @@ if ($status !== 'online') {
                     } else {
                         $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/viewcomment.php');
                         $r->setMethod(HTTP_Request2::METHOD_POST);
+                        $r->setHeader("Accept-Encoding:gzip,deflat");
                         $r->addPostParameter(array('news_id' => $id, 'region' => $region));
                         try {
                             $body = $r->send()->getBody();

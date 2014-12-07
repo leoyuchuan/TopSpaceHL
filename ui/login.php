@@ -46,7 +46,7 @@ if ($status === 'online') {
                             xmlhttp.open("POST", "./phpscript/fb.php", true);
                             var params = "token=" + id;
                             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//                            xmlhttp.setRequestHeader("Accept-Encoding", "gzip,deflat");
+                            xmlhttp.setRequestHeader("Accept-Encoding", "gzip,deflat");
                             xmlhttp.send(params);
                         });
                     } else if (response.status === 'not_authorized') {
@@ -141,7 +141,7 @@ if ($status === 'online') {
                             xmlhttp.open("POST", "./phpscript/loginprocess.php", true);
                             var params = "username=" + username.trim() + "&password=" + password.trim() + "&region=" + region.trim();
                             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//                            xmlhttp.setRequestHeader("Accept-Encoding","gzip,deflat");
+                            xmlhttp.setRequestHeader("Accept-Encoding","gzip,deflat");
                             xmlhttp.send(params);
                         }
 

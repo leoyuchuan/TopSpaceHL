@@ -84,7 +84,7 @@ echo "token = '$token';";
                             }
 
                             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//                            xmlhttp.setRequestHeader("Accept-Encoding","gzip,deflat");
+                            xmlhttp.setRequestHeader("Accept-Encoding","gzip,deflat");
                             xmlhttp.send(params);
                         }
 

@@ -89,6 +89,7 @@ if ($status !== 'online') {
                             } else {
                                 $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
                                 $r->setMethod(HTTP_Request2::METHOD_POST);
+                                $r->setHeader("Accept-Encoding:gzip,deflat");
                                 $r->addPostParameter(array('o' => 'all', 'region' => $region));
                                 try {
                                     $body = $r->send()->getBody();
@@ -130,6 +131,7 @@ if ($status !== 'online') {
                             } else {
                                 $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
                                 $r->setMethod(HTTP_Request2::METHOD_POST);
+                                $r->setHeader("Accept-Encoding:gzip,deflat");
                                 $r->addPostParameter(array('o' => 'byid', 'team_id' => $tid, 'region' => $region));
                                 try {
                                     $body = $r->send()->getBody();
@@ -151,6 +153,7 @@ if ($status !== 'online') {
                                 echo "</tbody><br/></table>";
                             $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
                             $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->setHeader("Accept-Encoding:gzip,deflat");
                             $r->addPostParameter(array('o' => 'member', 'team_id' => $tid, 'region' => $region));
                             $memcached = new Memcached();
                             $memcached->addServer('localhost', 11211);

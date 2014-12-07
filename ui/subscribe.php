@@ -88,6 +88,7 @@ session_start();
                         } else {
                             $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/subscribe.php');
                             $r->setMethod(HTTP_Request2::METHOD_POST);
+                            $r->setHeader("Accept-Encoding:gzip,deflat");
                             $r->addPostParameter(array('o' => 'gets', 'username' => $username, 'password' => $password, 'region' => $region));
                             try {
                                 $body = $r->send()->getBody();
