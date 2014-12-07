@@ -103,7 +103,7 @@ session_start();
                             $id = $new->news_id;
                             $date = $new->date;
                             $title = $new->title;
-                            echo "<table class='table'><caption>Recent News List</caption> 
+                            echo "<table class='table'><caption><span class='label label-default'>Recent News List</span></caption> 
                                   <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead>
                                   ";
                             echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr></tbody><br/>";

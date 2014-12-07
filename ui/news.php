@@ -76,7 +76,7 @@ session_start();
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><?php
+                    <?php
                         require_once 'HTTP/Request2.php';
                         session_start();
                         $region = $_SESSION['region'];
@@ -145,12 +145,18 @@ session_start();
                                 echo $ex->getMessage();
                             }
                         }
+                        echo "<table class='table'><caption><span class='label label-primary'>Comments Box</span></caption> 
+                              <thead><tr><th>Username</th><th>Comments</th></tr><thead><tbody>
+                              ";
                         foreach ($xml->comment as $comment) {
                             $uname = $comment->username;
                             $content = $comment->content;
                             echo "$uname: $content<br/>";
+                            echo "<tr><td>$uname</td>
+                                  <td>$content</td></tr>";
                         }
-                        ?></h1>
+                        echo "</tbody><br/></table>";
+                        ?>
                 </div>
             </div>
             <!-- /.row -->

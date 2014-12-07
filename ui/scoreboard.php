@@ -76,7 +76,7 @@ session_start();
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><?php
+                    <?php
                         require_once 'HTTP/Request2.php';
                         session_start();
                         $region = $_SESSION['region'];
@@ -110,14 +110,14 @@ session_start();
                             $t1name = getTeamById((string) $t1id);
                             $t2name = getTeamById((string) $t2id);
 //                            echo "<div><span>$id</span><span>$title</span><span>$date</span></div>";
-                            echo "game_id:$id |"
-                            . "<a href='team.php?tid=$t1id'>$t1name</a> Score:$t1s"
-                            . " VS "
-                            . "<a href='team.php?tid=$t2id'>$t2name</a> Score:$t2s"
-                            . "<br/>Date: $date $time<br/>"
-                            . "location: $location<br/>";
+                            // echo "game_id:$id |"
+                            // . "<a href='team.php?tid=$t1id'>$t1name</a> Score:$t1s"
+                            // . " VS "
+                            // . "<a href='team.php?tid=$t2id'>$t2name</a> Score:$t2s"
+                            // . "<br/>Date: $date $time<br/>"
+                            // . "location: $location<br/>";
 
-                            echo "<table class='table'><caption> Game Scoreboard</caption> 
+                            echo "<table class='table'><caption><span class='label label-success'>Game Scoreboard</span></caption> 
                                   <thead><tr><th>Game ID</th><th>Team 1</th><th>Team 2</th><th>Date</th><th>Location></th></tr><thead>
                                   ";
                             echo "<tbody><tr><td>$id</td><td><a href='team.php?nid=$t1id'>$t1name</a></td>
@@ -148,7 +148,7 @@ session_start();
                             }
                             return (string) $xml->team[0]->name;
                         }
-                        ?></h1>
+                        ?>
                 </div>
             </div>
             <!-- /.row -->

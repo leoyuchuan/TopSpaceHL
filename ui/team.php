@@ -76,7 +76,7 @@ if ($status !== 'online') {
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><?php
+                    <?php
                         $tid = $_GET['tid'];
                         require_once 'HTTP/Request2.php';
                         if ($tid === null || $tid === "") {
@@ -101,6 +101,9 @@ if ($status !== 'online') {
                                     echo $ex->getMessage();
                                 }
                             }
+                            echo "<table class='table'><caption><span class='label label-warning'>Sub Options</span></caption> 
+                                  <thead><tr><th>Team</th><th>Sub</th><th>Unsub</th></tr><thead><tbody>
+                                  ";
                             foreach ($xml->team as $team) {
                                 $tid = $team->team_id;
                                 $name = $team->name;
@@ -110,14 +113,13 @@ if ($status !== 'online') {
                                 // echo "<br/>";
 
 
-                                echo "<table class='table'><caption>Subscribe Options</caption> 
-                                  <thead><tr><th>Team</th><th>Sub</th><th>Unsub</th></tr><thead>
-                                  ";
-                                echo "<tbody><tr><td><a href='team.php?tid=$tid'>$name</a></td>
+        
+                                echo "<tr><td><a href='team.php?tid=$tid'>$name</a></td>
                                   <td><a href='./phpscript/subprocess.php?tid=$tid'>Sub</a></td>
-                                  <td><a href='./phpscript/unsubyid.php?tid=$tid'>Unsub</a></td></tr></tbody><br/>";
-                                echo "</table>";
+                                  <td><a href='./phpscript/unsubyid.php?tid=$tid'>Unsub</a></td></tr>";
+                                
                             }
+                            echo "</tbody><br/></table>";
                         } else {
                             session_start();
                             $region = $_SESSION['region'];
@@ -140,13 +142,16 @@ if ($status !== 'online') {
                                     echo $ex->getMessage();
                                 }
                             }
+                            echo "<table class='table'><caption><span class='label label-danger'>Sub Options</span></caption> 
+                                  <thead><tr><th>Team</th><th>Sub</th><th>Unsub</th></tr><thead><tbody>
+                                  ";
                             foreach ($xml->team as $team) {
                                 $name = $team->name;
-                                echo "$name  <a href='./phpscript/subprocess.php?tid=$tid'>subscribe</a>    ";
-                                echo "<a href='./phpscript/unsubyid.php?tid=$tid'>unsubscribe</a>";
-                                echo "<br/>";
+                                echo "<tr><td><a href='team.php?tid=$tid'>$name</a></td>
+                                  <td><a href='./phpscript/subprocess.php?tid=$tid'>Sub</a></td>
+                                  <td><a href='./phpscript/unsubyid.php?tid=$tid'>Unsub</a></td></tr>";
                             }
-
+                                echo "</tbody><br/></table>";
                             $r = new Http_Request2('http://www.webserver' . rand(1, 2) . '.com/team.php');
                             $r->setMethod(HTTP_Request2::METHOD_POST);
                             $r->addPostParameter(array('o' => 'member', 'team_id' => $tid, 'region' => $region));
@@ -165,13 +170,18 @@ if ($status !== 'online') {
                                     echo $ex->getMessage();
                                 }
                             }
+                            echo "<table class='table'><caption><span class='label label-danger'>Members</span></caption> 
+                                  <thead><tr><th>First Name</th><th>Last Name</th></tr><thead><tbody>
+                                  ";
                             foreach ($xml->member as $member) {
                                 $fn = $member->first_name;
                                 $ln = $member->last_name;
-                                echo "$fn $ln<br/>";
+                                // echo "$fn $ln<br/>";
+                                echo "<tr><td>$fn</td><td>$ln</td></tr>";
                             }
+                            echo "</tbody><br/></table>";
                         }
-                        ?></h1>
+                        ?>
                 </div>
             </div>
             <!-- /.row -->

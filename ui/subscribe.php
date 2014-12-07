@@ -76,7 +76,7 @@ session_start();
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1><?php
+                    <?php
                         require_once 'HTTP/Request2.php';
                         session_start();
                         $region = $_SESSION['region'];
@@ -108,16 +108,16 @@ session_start();
                             $date = $new->date;
                             $title = $new->title;
 //                            echo "<div><span>$id</span><span>$title</span><span>$date</span></div>";
-                            echo "<a href='news.php?nid=$id'>id:$id | title:$title | date:$date </a>";
-                            echo "<br/>";
+                            // echo "<a href='news.php?nid=$id'>id:$id | title:$title | date:$date </a>";
+                            // echo "<br/>";
 
-                            echo "<table class='table'><caption>Subscribe List</caption> 
+                            echo "<table class='table'><caption><span class='label label-info'>Sub List</span></caption> 
                                   <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead>
                                   ";
                             echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr></tbody><br/>";
                             echo "</table>";
                         }
-                        ?></h1>
+                        ?>
                 </div>
             </div>
             <!-- /.row -->
