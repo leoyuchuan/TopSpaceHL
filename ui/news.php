@@ -163,11 +163,6 @@ session_start();
                                   <input type="text" class="form-control" id="name" 
                                      placeholder="Enter Comments">
                                </div>
-                               <div class="checkbox">
-                                  <label>
-                                  <input type="checkbox"> Stay anonymous.
-                                  </label>
-                               </div>
                                <button type="submit" class="btn btn-default">Submit</button>
                         </form> ;
 
