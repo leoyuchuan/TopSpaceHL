@@ -96,18 +96,17 @@ session_start();
                                 echo $ex->getMessage();
                             }
                         }
+                        echo "<table class='table'><caption><span class='label label-default'>Recent News List</span></caption> 
+                                  <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead><tbody>
+                                  ";
                         foreach($xml->news as $new){
                             $id = $new->news_id;
                             $date = $new->date;
                             $title = $new->title;
-                            echo "<table class='table'><caption><span class='label label-default'>Recent News List</span></caption> 
-                                  <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead>
-                                  ";
-                            echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr></tbody><br/>";
-                            echo "</table>";
 
-
+                        echo "<tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr>";
                         }
+                        echo "</tbody><br/></table>";
                         ?>
                 </div>
             </div>

@@ -170,10 +170,10 @@ if ($status !== 'online') {
                                 alert("Comment too short!");
                                 return;
                             }
-<?php
-$nid = $_GET['nid'];
-echo "var news_id = $nid;";
-?>
+                        <?php
+                        $nid = $_GET['nid'];
+                        echo "var news_id = $nid;";
+                        ?>
                             var xmlhttp;
                             if (window.XMLHttpRequest)
                             {// code for IE7+, Firefox, Chrome, Opera, Safari

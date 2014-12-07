@@ -100,6 +100,9 @@ session_start();
                         if ($xml->news->count() === 0) {
                             echo "No Subscription!";
                         }
+                        echo "<table class='table'><caption><span class='label label-info'>Sub List</span></caption> 
+                                  <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead><tbody>
+                                  ";
                         foreach ($xml->news as $new) {
                             $id = $new->news_id;
                             $date = $new->date;
@@ -108,12 +111,11 @@ session_start();
                             // echo "<a href='news.php?nid=$id'>id:$id | title:$title | date:$date </a>";
                             // echo "<br/>";
 
-                            echo "<table class='table'><caption><span class='label label-info'>Sub List</span></caption> 
-                                  <thead><tr><th>ID</th><th>Title</th><th>Date</th></tr><thead>
-                                  ";
-                            echo "<tbody><tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr></tbody><br/>";
-                            echo "</table>";
+
+                            echo "<tr><td>$id</td><td><a href='news.php?nid=$id'>$title</a></td><td>$date</td></tr>";
+
                         }
+                            echo "</tbody><br/></table>";
                         ?>
                 </div>
             </div>

@@ -95,6 +95,9 @@ session_start();
                                 echo $ex->getMessage();
                             }
                         }
+                        echo "<table class='table'><caption><span class='label label-success'>Game Scoreboard</span></caption> 
+                                  <thead><tr><th>Game ID</th><th>Team 1</th><th>Team 2</th><th>Date</th><th>Location></th></tr><thead><tbody>
+                                  ";
                         foreach ($xml->game as $game) {
                             $id = $game->game_id;
                             $t1id = $game->team1_id;
@@ -114,14 +117,12 @@ session_start();
                             // . "<br/>Date: $date $time<br/>"
                             // . "location: $location<br/>";
 
-                            echo "<table class='table'><caption><span class='label label-success'>Game Scoreboard</span></caption> 
-                                  <thead><tr><th>Game ID</th><th>Team 1</th><th>Team 2</th><th>Date</th><th>Location></th></tr><thead>
-                                  ";
-                            echo "<tbody><tr><td>$id</td><td><a href='team.php?tid=$t1id'>$t1name</a></td>
-                                  <td><a href='team.php?tid=$t2id'>$t2name</a></td><td>$date $time</td><td>$location</td></tr></tbody><br/>";
-                            echo "</table>";
-                        }
 
+                            echo "<tr><td>$id</td><td><a href='team.php?tid=$t1id'>$t1name</a></td>
+                                  <td><a href='team.php?tid=$t2id'>$t2name</a></td><td>$date $time</td><td>$location</td></tr>";
+
+                        }
+                            echo "</tbody><br/></table>";
                         function getTeamById($teamid) {
                             session_start();
                             $region = $_SESSION['region'];
