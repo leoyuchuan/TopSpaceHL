@@ -13,11 +13,11 @@
                     <form action="javascript:void(0);" method="POST">
                         <input type="text" placeholder="username" value="" required name="username">
                         <input type="password" placeholder="password" value="" required name="password">
-                        <input type="text" name="region" value="us">
+                        <input type="text" name="region" value="us/cn">
                         <button type="submit" onclick="login()"><i class="fa fa-arrow-right"></i></button>
                     </form>
                     <div id="note">
-                    <h1>Don't have an account? Super Fast <a href="register.php">Sign Up</a> Here!</h1>
+                    <h1>Don't have an account?<br/> Super Fast <a href="register.php">Sign Up</a> Here!</h1>
                     </div>
 
                     <script>

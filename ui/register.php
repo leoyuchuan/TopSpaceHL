@@ -1,3 +1,11 @@
+<?php
+session_start();
+$status = $_SESSION['status'];
+if ($status === 'online') {
+    echo '<script>window.location = "home.php"</script>';
+    return;
+}
+?>
 <html xmlns:wb="http://open.weibo.com/wb">
     <html>
         <head>
@@ -15,18 +23,11 @@
                     <form action="javascript:void(0);" method="POST">
                         <input type="text" placeholder="username" value="" required name="username">
                         <input type="password" placeholder="password" value="" required name="password">
-                        <input type="text" name="region" value="preferred region">
-                        <button type="submit" onclick="login()"><i class="fa fa-arrow-right"></i></button>
+                        <input type="text" name="region" value="us/cn">
+                        <button type="submit" onclick="register()"><i class="fa fa-arrow-right"></i></button>
                     </form>
                     <div id="note">
-                    <h1>Sign up using Social Networking Service <a href="http://helmos.com.cn/wplproj/login.php">Here</a></h1>
-                    
-                    <div class="panel panel-default">
-    <div class="panel-body">
-        Share your progress on Facebook!
-        <a href="{{ path('facebook_authorize_start') }}">Connect with Facebook</a>
-    </div>
-</div>
+                        <h1>Sign up using Social Networking Service <a href="http://helmos.com.cn/wplproj/login.php">Here</a></h1>
                     </div>
 
                     <script>
@@ -38,7 +39,7 @@
                         function logoutwb() {
                             alert('logout');
                         }
-                        function login() {
+                        function register() {
                             var inputs = document.getElementsByTagName('input');
                             var username = inputs[0].value;
                             var password = inputs[1].value;
@@ -63,22 +64,25 @@
                             else
                             {// code for IE6, IE5
                                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                            } 
+                            }
                             xmlhttp.onreadystatechange = function ()
                             {
-                                loginProcess(xmlhttp.responseText);
+                                registerProcess(xmlhttp.responseText);
                                 return;
                             };
-                            xmlhttp.open("POST", "./phpscript/loginprocess.php", true);
+                            xmlhttp.open("POST", "./phpscript/register.php", true);
                             var params = "username=" + username.trim() + "&password=" + password.trim() + "&region=" + region.trim();
                             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 //                            xmlhttp.setRequestHeader("Accept-Encoding","gzip,deflat");
                             xmlhttp.send(params);
                         }
 
-                        function loginProcess(message) {
-                            if(message.trim() == 'okay'){
-                                window.location="./home.php";
+                        function registerProcess(message) {
+                            if (message.trim() === 'okay') {
+                                window.location = "./home.php";
+                            }
+                            if (message.trim() === 'fail') {
+                                alert("Fail");
                             }
                         }
                     </script>
